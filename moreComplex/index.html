@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Handlebars</title>
+    <style type="text/css">
+        .redText {
+            color: red
+        }
+
+        .blueText {
+            color: blue
+        }
+
+        .greenText {
+            color: green
+        }
+    </style>
+    <script src="../handlebars-v4.7.7.js"></script>
+</head>
+
+<body>
+
+    <div id="quoteData"></div>
+
+    <script id="quote-template" type="text/x-handlebars-template">
+        <h3>Favorite {{name}} Quotes</h3>
+
+        <ol>
+        {{#each quotes}}
+        <li>{{quote}}</li>
+        {{/each}}
+        </ol>
+        {{{yogiBio}}} <br /><br />
+
+        {{makeLink "Yogi Bear Wiki" "https://en.wikipedia.org/wiki/Yogi_Bear"}} <br />
+
+        {{changeColor "Make my text a new color" color="green"}} <br />
+
+        {{sayHello}}
+    </script>
+
+    <script type="text/javascript">
+        var quoteInfo = document.getElementById("quote-template").innerHTML
+        var template = Handlebars.compile(quoteInfo)
+
+        Handlebars.registerHelper('makeLink', function (text, url) {
+            text = Handlebars.Utils.escapeExpression(text)
+            url = Handlebars.Utils.escapeExpression(url)
+
+            var theLink = '<a href="' + url + '">' + text + '</a>'
+
+            return new Handlebars.SafeString(theLink)
+        })
+
+        Handlebars.registerHelper('changeColor', function (text, options) {
+            text = Handlebars.Utils.escapeExpression(text);
+
+            if (options.hash.color === "red") {
+                return new Handlebars.SafeString("<span class = 'redText'>" + text + "</span>")
+            } else if (options.hash.color === "blue") {
+                return new Handlebars.SafeString("<span class = 'blueText'>" + text + "</span>")
+            } else {
+                return new Handlebars.SafeString("<span class = 'greenText'>" + text + "</span>")
+            }
+        })
+
+        Handlebars.registerHelper('sayHello', function (options) {
+            switch (options.data.lang) {
+                case "Spanish":
+                    return "Hola"
+                    break;
+                case "French":
+                    return "Bonjour"
+                    break;
+                default:
+                    return "Hello"
+            }
+        })
+
+        var quoteData = template({
+            name: "Yogi Bear",
+            quotes: [{
+                    quote: "They have donuts. DONUTS!"
+                },
+                {
+                    quote: "Boo Boo, you've tried to stop my brilliant ideas with common sense a thousand times. Has it ever worked?"
+                },
+                {
+                    quote: "It's because I'm smarter than the average bear."
+                },
+                {
+                    quote: "I agree, sir. That's why Boo-Boo and I would never disturb family pic-a-nics."
+                },
+            ],
+            yogiBio: '<i>Yogi Bear was a bear who liked a good picinic basket.</i>'
+        }, {
+            data: {
+                lang: "Spanish"
+            }
+        });
+
+
+
+        document.getElementById("quoteData").innerHTML += quoteData;
+    </script>
+</body>
+
+</html>

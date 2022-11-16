@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Handlebars</title>
+    <script src="../handlebars-v4.7.7.js"></script>
+    <script src="groceries.js"></script>
+</head>
+
+<body>
+
+    <div id="contentDiv"></div>
+
+    <!-- <script id="grocery-template" type="text/x-handlebars-template">
+        {{#each groceries}}
+        <div class="grocery-item">
+            <p>Item: {{this.item}}</p>
+        </div>
+        {{/each}}
+    </script> -->
+
+    <script type="text/javascript">
+        // var templateInfo = document.getElementById("grocery-template").innerHTML;
+        // //compile the template
+        // var template = Handlebars.compile(templateInfo);
+
+        var template = Handlebars.templates['groceries']
+
+        var context = {
+            groceries: [{
+                    item: "Potato"
+                },
+                {
+                    item: "Flour"
+                },
+                {
+                    item: "Yogurt"
+                },
+                {
+                    item: "Beans"
+                },
+            ]
+        }
+
+
+        var templateData = template(context)
+
+        document.getElementById("contentDiv").innerHTML += templateData;
+    </script>
+
+</body>
+
+</html>
